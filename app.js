@@ -115,3 +115,4 @@ app.listen(port, () => {
   console.log(`Config: Recommended Width=${RECOMMENDED_WIDTH}, Max Width=${MAX_WIDTH}, File Size Limit=${FILE_SIZE_LIMIT_MB}MB`);
   console.log(`Ready to check designs!`);
 });
+
