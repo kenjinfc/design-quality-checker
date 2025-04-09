@@ -4,11 +4,18 @@
     {
       "src": "app.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     { "src": "/analyze", "dest": "/app.js" },
     { "src": "/api/placeholder", "dest": "/app.js" },
-    { "src": "/", "dest": "/app.js" }
+    { "src": "/style.css", "dest": "/public/style.css" },
+    { "src": "/script.js", "dest": "/public/script.js" },
+    { "src": "/(.*)", "dest": "/public/$1" },
+    { "src": "/", "dest": "/public/index.html" }
   ]
-} 
+}
