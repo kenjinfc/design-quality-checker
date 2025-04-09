@@ -22,13 +22,13 @@ const upload = multer({
   limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 } // Use config var
 });
 
-// Phục vụ file tĩnh từ public
-app.use(express.static(path.join(__dirname, 'public')));
+// Phục vụ file tĩnh từ public - Vercel sẽ xử lý việc này thông qua Output Directory setting
+// app.use(express.static(path.join(__dirname, 'public'))); 
 
-// Trang chủ
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// Trang chủ - Vercel sẽ tự động phục vụ index.html từ Output Directory
+// app.get('/', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 // API cung cấp hình ảnh placeholder
 app.get('/api/placeholder', (req, res) => {
