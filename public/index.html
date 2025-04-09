@@ -1,0 +1,136 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Design Quality Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Header bar -->
+  <div class="header-bar">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <h1 class="text-xl font-bold">PNG Quality Analyzer</h1>
+      <p class="text-sm">Đánh giá độ phân giải và tối ưu thiết kế cho in ấn</p>
+    </div>
+  </div>
+
+  <div class="container mx-auto px-4 py-5">
+    <!-- Upload section -->
+    <div class="upload-strip">
+      <div class="upload-area" id="drop-area">
+        <div class="flex items-center">
+          <svg class="h-5 w-5 upload-icon mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+          </svg>
+          <span class="text-sm text-gray-600">Kéo thả thiết kế hoặc nhấp để chọn file</span>
+        </div>
+        <input type="file" id="file-input" name="design" accept="image/png" multiple class="hidden">
+      </div>
+      
+      <label for="file-input" class="upload-button">
+        <svg class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0l-4 4m4-4v12" />
+        </svg>
+        Chọn nhiều file PNG
+      </label>
+    </div>
+
+    <!-- Loading indicator -->
+    <div id="loading" class="hidden">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Error message area -->
+    <div id="error-message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4 hidden" role="alert">
+      <strong class="font-bold">Lỗi!</strong>
+      <span class="block sm:inline" id="error-text"></span>
+    </div>
+
+    <!-- Results section -->
+    <div id="results-section">
+      <div class="title-bar">
+        <h2>Kết quả kiểm tra hàng loạt</h2>
+      </div>
+      
+      <!-- Empty state message -->
+      <div id="empty-message" class="empty-message">
+        Lưới hiển thị thiết kế sẽ xuất hiện ở đây
+      </div>
+      
+      <!-- Grid container for designs -->
+      <div id="design-grid" class="grid-container hidden"></div>
+    </div>
+
+    <!-- Detail view -->
+    <div id="detail-view" class="detail-view hidden">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-medium text-lg">Chi tiết thiết kế</h3>
+        <button id="back-btn" class="back-btn">
+          &larr; Quay lại danh sách
+        </button>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <div class="bg-gray-100 rounded-lg p-4 flex items-center justify-center" style="min-height: 300px">
+            <img id="detail-image" class="max-w-full max-h-72 object-contain" alt="Design Preview">
+          </div>
+          
+          <div class="mt-4" id="inverted-container" style="display:none;">
+            <h4 class="font-medium text-sm mb-2">Biến thể màu sắc</h4>
+            <div class="bg-gray-100 rounded-lg p-4 flex items-center justify-center">
+              <img id="inverted-image" class="max-w-full max-h-48 object-contain" alt="Inverted Preview">
+            </div>
+            <button id="download-inverted" class="download-btn mt-3 w-full">
+              Tải xuống biến thể màu ngược
+            </button>
+          </div>
+        </div>
+        
+        <div>
+          <div class="info-panel">
+            <div class="text-sm mb-1">Recommended Design Width: 4500px</div>
+            <div class="text-sm font-bold mb-1" id="detail-quality-text">Print Quality: 0%</div>
+            <div class="progress-bar">
+              <div id="detail-quality-bar" class="progress-fill" style="width: 0%"></div>
+            </div>
+          </div>
+          
+          <div id="monochrome-warning" class="bg-blue-50 p-3 rounded-lg mb-4 hidden">
+            <p id="monochrome-message" class="text-sm text-blue-700"></p>
+          </div>
+          
+          <div class="info-panel">
+            <h4 class="font-medium text-sm mb-2">Chi tiết thiết kế</h4>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between">
+                <span>Tên file:</span>
+                <span id="detail-filename" class="font-medium"></span>
+              </div>
+              <div class="flex justify-between">
+                <span>Kích thước gốc:</span>
+                <span id="detail-original-size"></span>
+              </div>
+              <div class="flex justify-between">
+                <span>Dung lượng file:</span>
+                <span id="detail-filesize"></span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="info-panel">
+            <h4 class="font-medium text-sm mb-2">Đề xuất</h4>
+            <p id="detail-recommendation" class="text-sm"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

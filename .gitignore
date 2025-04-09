@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build artifacts
+*.exe
+*-win.exe
+*-macos
+*-linux
+
+# Environment variables (if you use a .env file later)
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db 
