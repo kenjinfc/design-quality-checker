@@ -23,7 +23,7 @@ const upload = multer({
 });
 
 // Phục vụ file tĩnh từ public
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Trang chủ
 app.get('/', (req, res) => {
