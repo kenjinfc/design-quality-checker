@@ -22,7 +22,11 @@ const upload = multer({
   limits: { fileSize: FILE_SIZE_LIMIT_MB * 1024 * 1024 } // Use config var
 });
 
-// Trang chủ - Vercel sẽ tự động phục vụ index.html từ Output Directory
+// Phục vụ TẤT CẢ file tĩnh từ thư mục public
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Trang chủ - Route này có thể không cần thiết nữa nếu express.static hoạt động đúng
+// nhưng để lại cũng không sao, nó sẽ bắt yêu cầu cho / sau khi static middleware chạy
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
